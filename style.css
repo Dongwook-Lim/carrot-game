@@ -30,11 +30,10 @@ body {
 main {
   position: relative;
   width: 1200px;
-  height: 65%;
+  height: 675px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
 .main-container {
@@ -50,14 +49,23 @@ main {
   z-index: -1;
 }
 
-.start-btn {
+.game-btn {
+  width: 90px;
+  height: 90px;
+  position: relative;
   color: var(--color-dark-blue);
   background-color: whitesmoke;
   border-radius: 50%;
 }
 
-.start-btn i {
+.game-btn i {
+  color: var(--color-dark-blue);
   font-size: 90px;
+  transition: all 300ms ease;
+}
+
+.game-btn i:hover {
+  transform: scale(1.1);
 }
 
 .timer-box {
@@ -96,6 +104,23 @@ main {
   font-weight: bolder;
 }
 
+.timer-sec {
+  position: absolute;
+  top: 2px;
+  left: 10px;
+}
+
+.timer-center {
+  position: absolute;
+  top: 0;
+  left: 55px;
+}
+
+.timer-millisec {
+  position: absolute;
+  top: 2px;
+  right: 10px;
+}
 .carrot-number {
   color: whitesmoke;
   font-size: 50px;
@@ -109,35 +134,53 @@ main {
   border: 1px solid var(--color-light-gray);
 }
 
+.item {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+}
+
 .retry-container {
   position: relative;
-  width: 450px;
-  height: 280px;
-  display: flex;
+  width: 520px;
+  height: 330px;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 120px;
+  padding: 50px;
 }
 
 .background-color {
   background-color: var(--color-gray);
   width: 100%;
   height: 100%;
-  opacity: 0.6;
+  opacity: 0.7;
   position: absolute;
   top: 0;
   left: 0;
   border-radius: 30px;
-  z-index: -1;
+  z-index: 0;
+}
+
+.retry-btn {
+  z-index: 1;
 }
 
 .retry-btn i {
   font-size: 60px;
   color: whitesmoke;
+  transition: all 200ms ease;
+}
+
+.retry-btn i:hover {
+  transform: scale(1.2);
 }
 
 .game-result {
-  margin: 30px 0;
+  margin: 40px 0;
   font-size: 60px;
-  color: var(--color-dark-blue);
+  color: whitesmoke;
+  z-index: 1;
 }

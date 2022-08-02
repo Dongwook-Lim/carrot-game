@@ -20,21 +20,29 @@
     <main>
       <img class="background-img" src="img/background.png" alt="" />
       <div class="main-container">
-        <button class="start-btn">
+        <button class="game-btn">
           <i class="fa-solid fa-circle-play"></i>
         </button>
         <div class="timer-box">
           <div class="timer-circle"></div>
-          <div class="timer-face">00:00</div>
+          <div class="timer-face">
+            <span class="timer-sec">00</span>
+            <span class="timer-center">:</span>
+            <span class="timer-millisec">00</span>
+          </div>
         </div>
-        <div class="carrot-number">10</div>
+        <div class="carrot-number"></div>
+      </div>
+      <div class="items-container">
+        <div class="carrots"></div>
+        <div class="bugs"></div>
       </div>
       <div class="retry-container">
         <div class="background-color"></div>
         <button class="retry-btn">
           <i class="fa-solid fa-rotate-right"></i>
         </button>
-        <span class="game-result">💐YOU WON!💐</span>
+        <span class="game-result"></span>
       </div>
     </main>
   </body>

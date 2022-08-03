@@ -9,20 +9,30 @@ const itemsContainer = document.querySelector('.items-container');
 const carrots = document.querySelector('.carrots');
 const bugs = document.querySelector('.bugs');
 
+const bgSound = new Audio('sound/bg.mp3');
+const alert = new Audio('sound/alert.wav');
+const bugPull = new Audio('sound/bug_pull.mp3');
+const carrotPull = new Audio('sound/carrot_pull.mp3');
+const gameWin = new Audio('sound/game_win.mp3');
+
 let Timer;
 
 carrots.addEventListener('click', (event) => {
   const target = event.target;
   target.remove();
   showCarrotsNumber();
+  playSound(carrotPull);
 });
 
 bugs.addEventListener('click', (event) => {
   showRetryBox('You Lost! 😭');
   stopTimer();
+  pauseSound(bgSound);
+  playSound(bugPull);
 });
 
 retryBtn.addEventListener('click', () => {
+  playSound(bgSound);
   showCarrotsBugs();
   showCarrotsNumber();
   startTimer();
@@ -32,17 +42,28 @@ retryBtn.addEventListener('click', () => {
 
 gameBtn.addEventListener('click', () => {
   if (icon.classList.contains('fa-circle-play')) {
+    playSound(bgSound);
     showStopButton();
     showCarrotsBugs();
     startTimer();
     removeRetryBox();
     showCarrotsNumber();
   } else {
+    pauseSound(bgSound);
     showStartButton();
     showRetryBox('Retry? 🤪');
     stopTimer();
   }
 });
+
+function pauseSound(sound) {
+  sound.pause();
+}
+
+function playSound(sound) {
+  sound.currentTime = 0;
+  sound.play();
+}
 
 function showCarrotsNumber() {
   const carrotsArray = document.querySelectorAll('.carrot');
@@ -50,6 +71,8 @@ function showCarrotsNumber() {
   if (carrotsArray.length === 0) {
     stopTimer();
     showRetryBox('You Won! 💐');
+    pauseSound(bgSound);
+    playSound(gameWin);
   }
 }
 
@@ -78,6 +101,8 @@ function startTimer() {
     if (seconds === 10) {
       stopTimer();
       showRetryBox('You Lost! 😭');
+      pauseSound(bgSound);
+      playSound(alert);
     }
   }, 1);
 }

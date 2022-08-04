@@ -17,6 +17,14 @@ const gameWin = new Audio('sound/game_win.mp3');
 
 let Timer;
 
+carrots.addEventListener('dragstart', (event) => {
+  event.preventDefault();
+});
+
+bugs.addEventListener('dragstart', (event) => {
+  event.preventDefault();
+});
+
 carrots.addEventListener('click', (event) => {
   const target = event.target;
   target.remove();

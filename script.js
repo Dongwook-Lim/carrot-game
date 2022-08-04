@@ -90,20 +90,22 @@ function startTimer() {
   const firstTime = new Date();
   Timer = setInterval(() => {
     const currentTime = new Date();
-    const newTime = new Date(currentTime - firstTime);
-    const seconds = newTime.getSeconds();
-    const milliSeconds = Math.floor(newTime.getMilliseconds() / 10);
+    const newTime = new Date(firstTime - currentTime);
+    const seconds = newTime.getSeconds() - 50;
+    let milliSeconds = Math.floor(newTime.getMilliseconds() / 10);
 
-    timerSec.innerText = `${seconds < 10 ? '0' + seconds : seconds}`;
-    timerMilliSec.innerText = `${
-      milliSeconds < 10 ? '0' + milliSeconds : milliSeconds
-    }`;
-    if (seconds === 10) {
+    if (seconds === 0) {
+      milliSeconds = 0;
       stopTimer();
       showRetryBox('You Lost! 😭');
       pauseSound(bgSound);
       playSound(alert);
     }
+
+    timerSec.innerText = `${seconds < 10 ? '0' + seconds : seconds}`;
+    timerMilliSec.innerText = `${
+      milliSeconds < 10 ? '0' + milliSeconds : milliSeconds
+    }`;
   }, 1);
 }
 

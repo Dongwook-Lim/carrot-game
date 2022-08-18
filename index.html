@@ -14,13 +14,12 @@
       src="https://kit.fontawesome.com/0299a38b7d.js"
       crossorigin="anonymous"
     ></script>
-    <script defer src="script.js"></script>
+    <script defer src="src/main.js"></script>
     <title>Carrot Game</title>
   </head>
   <body>
-    <main>
-      <img class="background-img" src="img/background.png" alt="" />
-      <div class="main-container">
+    <section class="game">
+      <section class="game__header">
         <button class="game-btn">
           <i class="fa-solid fa-circle-play"></i>
         </button>
@@ -32,19 +31,20 @@
             <span class="timer-millisec">00</span>
           </div>
         </div>
-        <div class="carrot-number"></div>
-      </div>
-      <div class="items-container">
+        <div class="carrot-count"></div>
+      </section>
+
+      <section class="game__field">
         <div class="carrots"></div>
         <div class="bugs"></div>
-      </div>
-      <div class="retry-container">
-        <div class="background-color"></div>
-        <button class="retry-btn">
-          <i class="fa-solid fa-rotate-right"></i>
-        </button>
-        <span class="game-result"></span>
-      </div>
-    </main>
+      </section>
+    </section>
+
+    <section class="pop-up pop-up--hide">
+      <button class="pop-up__btn">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <span class="pop-up__message"></span>
+    </section>
   </body>
 </html>

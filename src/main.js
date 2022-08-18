@@ -1,13 +1,17 @@
+'use strict';
+
+const game = document.querySelector('.game');
 const gameBtn = document.querySelector('.game-btn');
-const icon = document.querySelector('.fa-solid');
-const main = document.querySelector('main');
-const retryBox = document.querySelector('.retry-container');
-const retryBoxText = document.querySelector('.game-result');
-const retryBtn = document.querySelector('.retry-btn');
-const carrotNumber = document.querySelector('.carrot-number');
-const itemsContainer = document.querySelector('.items-container');
+const carrotCount = document.querySelector('.carrot-count');
+const gameBtnIcon = document.querySelector('.fa-solid');
+
+const gameField = document.querySelector('.game__field');
 const carrots = document.querySelector('.carrots');
 const bugs = document.querySelector('.bugs');
+
+const popUp = document.querySelector('.pop-up');
+const popUpMessage = document.querySelector('.pop-up__message');
+const popUpBtn = document.querySelector('.pop-up__btn');
 
 const bgSound = new Audio('sound/bg.mp3');
 const alert = new Audio('sound/alert.wav');
@@ -33,33 +37,33 @@ carrots.addEventListener('click', (event) => {
 });
 
 bugs.addEventListener('click', (event) => {
-  showRetryBox('You Lost! 😭');
+  showPopUpWithText('You Lost! 😭');
   stopTimer();
   pauseSound(bgSound);
   playSound(bugPull);
 });
 
-retryBtn.addEventListener('click', () => {
+popUpBtn.addEventListener('click', () => {
   playSound(bgSound);
   showCarrotsBugs();
   showCarrotsNumber();
   startTimer();
-  removeRetryBox();
+  hidePopUp();
   showStopButton();
 });
 
 gameBtn.addEventListener('click', () => {
-  if (icon.classList.contains('fa-circle-play')) {
+  if (gameBtnIcon.classList.contains('fa-circle-play')) {
     playSound(bgSound);
     showStopButton();
     showCarrotsBugs();
     startTimer();
-    removeRetryBox();
+    hidePopUp();
     showCarrotsNumber();
   } else {
     pauseSound(bgSound);
     showStartButton();
-    showRetryBox('Retry? 🤪');
+    showPopUpWithText('Retry? 🤪');
     stopTimer();
   }
 });
@@ -75,17 +79,17 @@ function playSound(sound) {
 
 function showCarrotsNumber() {
   const carrotsArray = document.querySelectorAll('.carrot');
-  carrotNumber.innerText = `${carrotsArray.length}`;
+  carrotCount.innerText = `${carrotsArray.length}`;
   if (carrotsArray.length === 0) {
     stopTimer();
-    showRetryBox('You Won! 💐');
+    showPopUpWithText('You Won! 💐');
     pauseSound(bgSound);
     playSound(gameWin);
   }
 }
 
-function removeRetryBox() {
-  retryBox.style.display = 'none';
+function hidePopUp() {
+  popUp.classList.add('pop-up--hide');
 }
 
 function stopTimer() {
@@ -105,7 +109,7 @@ function startTimer() {
     if (seconds === 0) {
       milliSeconds = 0;
       stopTimer();
-      showRetryBox('You Lost! 😭');
+      showPopUpWithText('You Lost! 😭');
       pauseSound(bgSound);
       playSound(alert);
     }
@@ -117,9 +121,9 @@ function startTimer() {
   }, 1);
 }
 
-function showRetryBox(text) {
-  retryBox.style.display = 'flex';
-  retryBoxText.innerText = text;
+function showPopUpWithText(text) {
+  popUp.classList.remove('pop-up--hide');
+  popUpMessage.innerText = text;
 }
 
 function getRandomNumber(min, max) {
@@ -129,10 +133,10 @@ function getRandomNumber(min, max) {
 function clearAllItems() {
   const allBugs = document.querySelectorAll('.bug');
   const allCarrots = document.querySelectorAll('.carrot');
-  for (i = 0; i < allBugs.length; i++) {
+  for (let i = 0; i < allBugs.length; i++) {
     allBugs[i].remove();
   }
-  for (i = 0; i < allCarrots.length; i++) {
+  for (let i = 0; i < allCarrots.length; i++) {
     allCarrots[i].remove();
   }
 }
@@ -156,13 +160,13 @@ function showCarrotsBugs() {
   clearAllItems();
   createCarrotsBugs();
   const items = document.querySelectorAll('.item');
-  const mainRect = main.getBoundingClientRect();
-  const mainWidth = mainRect.width;
-  const mianHeight = mainRect.height;
+  const gameRect = game.getBoundingClientRect();
+  const gameWidth = gameRect.width;
+  const gameHeight = gameRect.height;
   for (let i = 0; i < items.length; i++) {
     let thisItem = items[i];
-    let randomTop = getRandomNumber(mianHeight / 2, mianHeight - 80);
-    let randomLeft = getRandomNumber(0, mainWidth - 80);
+    let randomTop = getRandomNumber(gameHeight / 2, gameHeight - 80);
+    let randomLeft = getRandomNumber(0, gameWidth - 80);
     thisItem.style.top = `${randomTop}px`;
     thisItem.style.left = `${randomLeft}px`;
     thisItem.style.display = 'block';
@@ -170,11 +174,11 @@ function showCarrotsBugs() {
 }
 
 function showStartButton() {
-  icon.classList.remove('fa-circle-stop');
-  icon.classList.add('fa-circle-play');
+  gameBtnIcon.classList.remove('fa-circle-stop');
+  gameBtnIcon.classList.add('fa-circle-play');
 }
 
 function showStopButton() {
-  icon.classList.add('fa-circle-stop');
-  icon.classList.remove('fa-circle-play');
+  gameBtnIcon.classList.add('fa-circle-stop');
+  gameBtnIcon.classList.remove('fa-circle-play');
 }

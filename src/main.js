@@ -2,16 +2,11 @@
 
 import PopUp from './popup.js';
 import Field from './field.js';
+import * as sound from './sound.js';
 
 const gameBtn = document.querySelector('.game-btn');
 const carrotCount = document.querySelector('.carrot-count');
 const gameBtnIcon = document.querySelector('.fa-solid');
-
-const bgSound = new Audio('sound/bg.mp3');
-const alert = new Audio('sound/alert.wav');
-const bugPull = new Audio('sound/bug_pull.mp3');
-const carrotPull = new Audio('sound/carrot_pull.mp3');
-const gameWin = new Audio('sound/game_win.mp3');
 
 const gameFinishBanner = new PopUp();
 const gameField = new Field();
@@ -47,7 +42,7 @@ gameBtn.addEventListener('click', () => {
 
 function stopGame(text) {
   started = false;
-  pauseSound(bgSound);
+  sound.stopBg();
   showStartButton();
   gameFinishBanner.showWithText(text);
   stopTimer();
@@ -56,19 +51,10 @@ function stopGame(text) {
 function startGame() {
   started = true;
   gameField.init();
-  playSound(bgSound);
+  sound.playBg();
   showCarrotsNumber();
   startTimer();
   showStopButton();
-}
-
-function pauseSound(sound) {
-  sound.pause();
-}
-
-function playSound(sound) {
-  sound.currentTime = 0;
-  sound.play();
 }
 
 function showCarrotsNumber() {
@@ -77,7 +63,7 @@ function showCarrotsNumber() {
   if (carrotsArray.length === 0) {
     started = false;
     stopGame('You Won! 💐');
-    playSound(gameWin);
+    sound.playWin();
   }
 }
 
@@ -98,7 +84,7 @@ function startTimer() {
     if (seconds === 0) {
       milliSeconds = 0;
       stopGame('You Lost! 😭');
-      playSound(alert);
+      sound.playAlert();
     }
 
     timerSec.innerText = `${seconds < 10 ? '0' + seconds : seconds}`;

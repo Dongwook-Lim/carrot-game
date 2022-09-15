@@ -3,8 +3,35 @@
 import Field from './field.js';
 import * as sound from './sound.js';
 
-export default class Game {
-  constructor() {
+export const Reason = Object.freeze({
+  won: 'won',
+  lost: 'lost',
+  cancel: 'cancel',
+});
+
+export class GameBuilder {
+  withCarrotNumber(num) {
+    this.carrotNumber = num;
+    return this;
+  }
+
+  withBugNumber(num) {
+    this.bugNumber = num;
+    return this;
+  }
+
+  build() {
+    return new Game(
+      this.carrotNumber, //
+      this.bugNumber
+    );
+  }
+}
+
+class Game {
+  constructor(carrotNumber, bugNumber) {
+    this.carrotNumber = carrotNumber;
+    this.bugNumber = bugNumber;
     this.carrotCount = document.querySelector('.carrot-count');
     this.gameBtnIcon = document.querySelector('.fa-solid');
     this.gameBtn = document.querySelector('.game-btn');
@@ -19,7 +46,7 @@ export default class Game {
     this.Timer = undefined;
     this.started = false;
 
-    this.gameField = new Field();
+    this.gameField = new Field(carrotNumber, bugNumber);
     this.gameField.setClickListener(this.onItemClick);
   }
 
@@ -38,12 +65,12 @@ export default class Game {
     this.onGameStop = onGameStop;
   }
 
-  stop(text) {
+  stop(reason) {
     this.started = false;
     sound.stopBg();
     this.showStartButton();
     this.stopTimer();
-    this.onGameStop && this.onGameStop(text);
+    this.onGameStop && this.onGameStop(reason);
   }
 
   start() {
@@ -70,8 +97,7 @@ export default class Game {
     this.carrotCount.innerText = `${carrotsArray.length}`;
     if (carrotsArray.length === 0) {
       this.started = false;
-      this.stop('win');
-      sound.playWin();
+      this.stop('won');
     }
   }
 
@@ -92,7 +118,6 @@ export default class Game {
       if (seconds === 0) {
         milliSeconds = 0;
         this.stop('lost');
-        sound.playAlert();
       }
 
       timerSec.innerText = `${seconds < 10 ? '0' + seconds : seconds}`;

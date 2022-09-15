@@ -5,13 +5,16 @@ import * as sound from './sound.js';
 const CARROT_SIZE = 80;
 
 export default class Field {
-  constructor() {
+  constructor(carrotNumber, bugNumber) {
     this.field = document.querySelector('.game__field');
     this.fieldRect = this.field.getBoundingClientRect();
     this.field.addEventListener('click', this.onClick);
     this.field.addEventListener('dragstart', (event) => {
       event.preventDefault();
     });
+
+    this.carrotNumber = carrotNumber;
+    this.bugNumber = bugNumber;
   }
 
   setClickListener(onItemClick) {
@@ -32,8 +35,8 @@ export default class Field {
 
   init() {
     this.field.innerHTML = '';
-    this._addItems('carrot', 15, 'img/carrot.png');
-    this._addItems('bug', 7, 'img/bug.png');
+    this._addItems('carrot', this.carrotNumber, 'img/carrot.png');
+    this._addItems('bug', this.bugNumber, 'img/bug.png');
   }
 
   _addItems(className, count, imgPath) {
